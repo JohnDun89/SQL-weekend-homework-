@@ -1,8 +1,8 @@
 require('pg')
 require_relative('../db/sql_runner.rb')
-require_relative('ticket.rb')
 
-class Customers
+
+class Customer
 
 attr_reader :id, :name, :funds
 
@@ -27,7 +27,7 @@ attr_reader :id, :name, :funds
     "
     values = [@name, @funds]
     result = SqlRunner.run(sql, values)
-    @id = results[0]['id'].to_i
+    @id = result[0]['id'].to_i
   end
 
   def self.all
