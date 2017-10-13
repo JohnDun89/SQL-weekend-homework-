@@ -12,6 +12,31 @@ class Film
     @price = options['price']
   end
 
+  def save
+    sql = " INSERT INTO  film
+    (
+    title,
+    price
+    )
+    VALUES
+    (
+     $1, $2
+    )
+    RETURNING *
+    "
+    values = [@title, @price]
+    result = SqlRunner.run(sql, values)
+    @id = result[0]['id'].to_i
+  end
+
+  def self.all
+    sql = "SELECT * FROM film"
+    values = []
+    films = SqlRunner.run(sql, values)
+    films_as_objects = films.map { |film| Film.new(film)}
+    return films_as_objects
+  end
+
 
 
 end
