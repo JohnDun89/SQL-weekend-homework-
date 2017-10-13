@@ -57,6 +57,22 @@ class Tickets
     values = [@film_id, @customer_id]
   end
 
+  def customer()
+    sql = "SELECT * FROM customers WHERE id = $1"
+    values = [@customer_id]
+    results = SqlRunner.run(sql, values)
+    customer_data = results[0]
+    customer = Customers.new(customer_data)
+    return customer
+  end
 
+    def movie()
+      sql = "SELECT * FROM customers WHERE id = $1"
+      values = [@film_id]
+      results = SqlRunner.run(sql, values)
+      film_data = results[0]
+      film = Films.new(film_data)
+      return film
+    end
 
 end
