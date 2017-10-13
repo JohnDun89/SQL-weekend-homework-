@@ -17,8 +17,4 @@ ticket_1 = Tickets.new({'customer_id' => customer_1.id, 'film_id' => film_1.id})
 ticket_1.save
 
 binding.pry
-
-
-
-
 nil
