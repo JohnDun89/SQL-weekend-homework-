@@ -49,4 +49,11 @@ attr_reader :id, :name, :funds
     SqlRunner.run(sql, values)
   end
 
+  def update
+    sql = " UPDATE customers SET ( name, funds)
+    = ( $1, $2) WHERE id = $1"
+    values = [@name, @funds]
+    SqlRunner.run(sql, runner)
+  end
+
 end
