@@ -4,13 +4,13 @@ require_relative('customer.rb')
 require_relative('film.rb')
 
 
-class Ticket
+class Tickets
 
   attr_reader :id, :film_id, :customer_id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
-    @film_id = options[film_id].to_i
+    @film_id = options['film_id'].to_i
     @customer_id = options['customer_id'].to_i
   end
 
@@ -21,13 +21,14 @@ class Ticket
     film_id,
     customer_id
     )
+    VALUES
     (
-    VALUES $1, $2
+     $1, $2
     )
     RETURNING *
     "
-    values = []
-    results = SqlRunner.run(sql, values)
+    values = [@film_id, @customer_id]
+    result = SqlRunner.run(sql, values)
     @id = result[0]['id'].to_i
   end
 
@@ -35,7 +36,7 @@ class Ticket
     sql = "SELECT FROM tickets"
     values = []
     tickets = SqlRunner.run(sql, values)
-    tickets_as_objects = ticket.map {|ticket| Ticket.new(ticket)}
+    tickets_as_objects = tickets.map {|ticket| Tickets.new(ticket)}
   end
 
 

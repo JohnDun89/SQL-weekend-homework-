@@ -2,7 +2,7 @@ require('pg')
 require_relative('../db/sql_runner.rb')
 
 
-class Customer
+class Customers
 
 attr_reader :id, :name, :funds
 
@@ -14,7 +14,7 @@ attr_reader :id, :name, :funds
 
   def save
     sql = "
-    INSERT INTO customer
+    INSERT INTO customers
     (
     name,
     funds
@@ -31,10 +31,10 @@ attr_reader :id, :name, :funds
   end
 
   def self.all
-    sql = "SELECT * FROM customer"
+    sql = "SELECT * FROM customers"
     values = []
     customers = SqlRunner.run(sql, values)
-    customers_as_objects = customers.map { |customer| Customer.new(customer)}
+    customers_as_objects = customers.map { |customer| Customers.new(customer)}
 
   end
 end
