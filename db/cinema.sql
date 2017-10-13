@@ -8,7 +8,7 @@ title VARCHAR(255),
 price INT4
 )
 
-CREATE TABLE customers(
+CREATE TABLE customer(
 id SERIAL8 PRIMARY KEY,
 name VARCHAR(255),
 funds INT4
@@ -17,6 +17,6 @@ funds INT4
 CREATE TABLE tickets(
 id SERIAL8 PRIMARY KEY,
 film_id INT8 REFERENCES film(id),
-customers_id REFERENCES customers(id)
+customer_id REFERENCES customer(id)
 
 )

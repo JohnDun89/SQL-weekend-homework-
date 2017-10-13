@@ -12,4 +12,29 @@ attr_reader :id, :name, :funds
     @funds = options ['funds']
   end
 
+  def save
+    sql = "
+    INSERT INTO customer
+    (
+    name,
+    funds
+    )
+    VALUES
+    (
+     $1, $2
+    )
+    RETURNING *
+    "
+    values = [@name, @funds]
+    result = SqlRunner.run(sql, values)
+    @id = results[0]['id'].to_i
+  end
+
+  def self.all
+    sql = "SELECT * FROM customer"
+    values = []
+    customers = SqlRunner.run(sql, values)
+    customers_as_objects = customers.map { |customer| Customer.new(customer)}
+
+  end
 end
