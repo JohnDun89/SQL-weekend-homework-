@@ -35,6 +35,10 @@ attr_reader :id, :name, :funds
     values = []
     customers = SqlRunner.run(sql, values)
     customers_as_objects = customers.map { |customer| Customers.new(customer)}
-
   end
+
+  def self.delete_all
+    sql = "DELETE FROM customers"
+    values = []
+    SqlRunner.run()
 end

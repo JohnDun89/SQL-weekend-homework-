@@ -37,6 +37,12 @@ class Films
     return films_as_objects
   end
 
+  def self.delete_all
+    sql = "DELETE FROM films"
+    values = []
+    SqlRunner.run(sql, values)
+  end
+
 
 
 end

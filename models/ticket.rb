@@ -39,7 +39,11 @@ class Tickets
     tickets_as_objects = tickets.map {|ticket| Tickets.new(ticket)}
   end
 
-
+  def self.delete_all
+    sql = "DELETE FROM tickets"
+    values = []
+    tickets = SqlRunner.run(sql, values)
+  end
 
 
 end
