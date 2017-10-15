@@ -4,7 +4,8 @@ require_relative('ticket.rb')
 
 class Films
 
-  attr_reader :id, :title, :price
+  attr_reader :id
+  attr_accessor :title, :price
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -13,7 +14,7 @@ class Films
   end
 
   def save
-    sql = " INSERT INTO  films
+    sql = " INSERT INTO films
     (
     title,
     price
@@ -52,10 +53,18 @@ class Films
   def update
     sql = "
     UPDATE films SET ( title, price )
-    = ( $1, $2 ) WHERE id = $4
+    = ( $1, $2 ) WHERE id = $3
     "
-    values = [@title, @price]
+    values = [@title, @price, @id]
     SqlRunner.run(sql, values)
+  end
+
+  def tickets()
+    sql = "SELECT * FROM tickets WHERE id = $1"
+    values = [@id]
+    results = SqlRunner.run(sql, values)
+    tickets = resuts.map{|ticket| Ticket.new(ticket)}
+    return tickets
   end
 
 end

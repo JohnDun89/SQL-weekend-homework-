@@ -8,12 +8,16 @@ customer_1.save
 customer_2 = Customers.new({'name' => 'Sophie', 'funds' =>100})
 customer_2.save
 
+# binding.pry
+
 film_1 = Films.new({'title' => 'Batman', 'price' => 8})
 film_1.save
 film_2 = Films.new({'title' => 'Dunkirk', 'price' => 8})
 film_2.save
 
 ticket_1 = Tickets.new({'customer_id' => customer_1.id, 'film_id' => film_1.id})
+ticket_1.save
+ticket_2 = Tickets.new({'customer_id' => customer_1.id, 'film_id' => film_1.id})
 ticket_1.save
 
 binding.pry

@@ -6,7 +6,8 @@ require_relative('film.rb')
 
 class Tickets
 
-  attr_reader :id, :film_id, :customer_id
+  attr_reader :id
+  attr_accessor :film_id, :customer_id
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -25,7 +26,7 @@ class Tickets
     (
      $1, $2
     )
-    RETURNING *
+    RETURNING id
     "
     values = [@film_id, @customer_id]
     result = SqlRunner.run(sql, values)
@@ -33,7 +34,7 @@ class Tickets
   end
 
   def self.all
-    sql = "SELECT FROM tickets"
+    sql = "SELECT * FROM tickets"
     values = []
     tickets = SqlRunner.run(sql, values)
     tickets_as_objects = tickets.map {|ticket| Tickets.new(ticket)}
@@ -53,26 +54,9 @@ class Tickets
 
   def update
     sql = "UPDATE tickets SET ( film_id, customer_id)
-    =( $1, $2) WHERE id = $1"
-    values = [@film_id, @customer_id]
+    =( $1, $2) WHERE id = $3"
+    values = [@film_id, @customer_id, @id]
+    SqlRunner.run(sql, values)
   end
-
-  def customer()
-    sql = "SELECT * FROM customers WHERE id = $1"
-    values = [@customer_id]
-    results = SqlRunner.run(sql, values)
-    customer_data = results[0]
-    customer = Customers.new(customer_data)
-    return customer
-  end
-
-    def movie()
-      sql = "SELECT * FROM customers WHERE id = $1"
-      values = [@film_id]
-      results = SqlRunner.run(sql, values)
-      film_data = results[0]
-      film = Films.new(film_data)
-      return film
-    end
 
 end

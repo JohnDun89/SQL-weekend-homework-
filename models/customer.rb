@@ -1,10 +1,12 @@
 require('pg')
 require_relative('../db/sql_runner.rb')
+require_relative('ticket.rb')
 
 
 class Customers
 
-attr_reader :id, :name, :funds
+attr_reader :id
+attr_accessor :name, :funds
 
   def initialize(options)
     @id = options['id'].to_i if options['id']
@@ -50,10 +52,18 @@ attr_reader :id, :name, :funds
   end
 
   def update
-    sql = " UPDATE customers SET ( name, funds)
-    = ( $1, $2) WHERE id = $1"
-    values = [@name, @funds]
-    SqlRunner.run(sql, runner)
+    sql = " UPDATE customers SET (name, funds)
+    = ( $1, $2) WHERE id = $3"
+    values = [@name, @funds, @id]
+    SqlRunner.run(sql, values)
+  end
+
+  def tickets()
+    sql = "SELECT * FROM tickets WHERE id = $1"
+    values = [@id]
+    results = SqlRunner.run(sql, values)
+    tickets = resuts.map{|ticket| Ticket.new(ticket)}
+    return tickets
   end
 
 end
