@@ -59,12 +59,14 @@ class Films
     SqlRunner.run(sql, values)
   end
 
-  def tickets()
-    sql = "SELECT * FROM tickets WHERE id = $1"
+  def customers()
+    sql = "SELECT customers.* FROM customers
+    INNER JOIN tickets ON tickets.customer_id = customers.id
+    WHERE user_id = $1"
     values = [@id]
-    results = SqlRunner.run(sql, values)
-    tickets = resuts.map{|ticket| Ticket.new(ticket)}
-    return tickets
+    customer_data = SqlRunner.run(sql, values)
+    return Customers.map_items(customer_data)
   end
+
 
 end

@@ -58,12 +58,12 @@ attr_accessor :name, :funds
     SqlRunner.run(sql, values)
   end
 
-  def tickets()
-    sql = "SELECT * FROM tickets WHERE id = $1"
+  def films()
+    sql = "SELECT films.* FROM films INNER JOIN tickets
+    ON tickets.film_id = film.id WHERE user_id = $1"
     values = [@id]
-    results = SqlRunner.run(sql, values)
-    tickets = resuts.map{|ticket| Ticket.new(ticket)}
-    return tickets
+    film_data = SqlRunner.run(sql, values)
+    return Films.map_items(film_data)
   end
 
 end
